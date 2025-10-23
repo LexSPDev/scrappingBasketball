@@ -56,7 +56,6 @@ async function getPlayerNames() {
 
         });
         const playerOdds = await mapper(gamesContent);
-        await fs.writeFile(`content.json`, JSON.stringify(gamesContent, null, 2));
         await fs.writeFile(`playerNamesOdds.json`, JSON.stringify(playerOdds, null, 2));
 
     } catch (error) {
