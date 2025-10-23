@@ -1,0 +1,24 @@
+{
+  "name": "scrapping",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/LexSPDev/scrapingBasketball#readme",
+  "bugs": {
+    "url": "https://github.com/LexSPDev/scrapingBasketball/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LexSPDev/scrapingBasketball.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "puppeteer": "^24.26.1"
+  },
+  "devDependencies": {}
+}
