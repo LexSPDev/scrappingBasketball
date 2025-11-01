@@ -14,7 +14,7 @@ function getCurrentDateFormatted() {
     return `${year}${month}${day}`;
 }
 
-async function scrapeNBAScoresHTML() {
+export default async function scrapeNBAScoresHTML() {
     const date = getCurrentDateFormatted();
     const url = `https://www.espn.com/nba/scoreboard/_/date/${date}`;
     
@@ -42,20 +42,19 @@ async function scrapeNBAScoresHTML() {
 
                 const game = [...gameContainer].map((game) => {
                     const id = game?.getAttribute("id") || "";
+                    const time = game?.querySelector(".ScoreboardScoreCell__Time").innerHTML
                     const awayTeamName = game?.querySelector(".ScoreboardScoreCell__Item--away .ScoreCell__TeamName").innerHTML
                     const homeTeamName = game?.querySelector(".ScoreboardScoreCell__Item--home .ScoreCell__TeamName").innerHTML
-                    return {id, awayTeamName, homeTeamName}
+                    return {id, awayTeamName, homeTeamName, time}
                 });
-
-
-
                 return game;
             } else {
                 return `Error: Could not find an element with the selector ${selector}`;
             }
         }, gamesContainerSelector);
-
+        console.log(gamesContent)
         await fs.writeFile(`games${date}.json`, JSON.stringify(gamesContent, null, 2));
+        return gamesContent
 
     } catch (error) {
         console.error('An error occurred during scraping:', error.message);
@@ -66,4 +65,4 @@ async function scrapeNBAScoresHTML() {
     }
 }
 
-scrapeNBAScoresHTML();
+//scrapeNBAScoresHTML()
