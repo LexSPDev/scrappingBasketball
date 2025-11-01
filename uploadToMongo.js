@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 // 🔹 Configura tu conexión a MongoDB
-const MONGO_URI = "mongodb+srv://arv_db:rrtEUcpnXfA9EJg0@cluster0.qhij2az.mongodb.net";
+const MONGO_URI = "";
 const DB_NAME = "nbaData";
 
 /**
