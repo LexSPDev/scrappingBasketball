@@ -1,16 +1,13 @@
 import puppeteer from 'puppeteer';
-import fs from "fs/promises";
 
-async function getPlayerNames() {
-    const url = `https://lexfitcode.github.io/dummieweb/bo`;
-    
+export default async function getPlayerNames() {
+    const url = `https://lexfitcode.github.io/dummieweb/basketball/20251031`;
     let browser;
     try {
         browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
 
-        console.log(`Navigating to dummieWeb`);
-        await page.goto(url);
+        await page.goto(url,{ waitUntil: 'domcontentloaded', timeout: 60000 });
         
         const gamesContent = await page.evaluate(() => {
             // Find the element using the provided selector
@@ -55,8 +52,7 @@ async function getPlayerNames() {
                 return game;
 
         });
-        const playerOdds = await mapper(gamesContent);
-        await fs.writeFile(`playerNamesOdds.json`, JSON.stringify(playerOdds, null, 2));
+        return gamesContent; 
 
     } catch (error) {
         console.error('An error occurred during scraping:', error.message);
@@ -66,26 +62,3 @@ async function getPlayerNames() {
         }
     }
 }
-
-async function mapper(market) {
-    let playerOdd = []
-    let name
-    let line
-    let overOdd
-    let underOdd
-    for(let i = 0 ; i <  market.length; i++){
-        console.log(market[i].marketsContent)
-        for(let j = 0 ; j <  market[i].playerContent.length; j++){
-            if(market[i].playerContent.length > 0){
-                name  =market[i].playerContent[j].playerName
-                line = market[i].singleOddsOverOne[j].singleOddOverLine
-                overOdd = market[i].singleOddsOverOne[j].singleOddOverOdd
-                underOdd = market[i].singleOddsUnderOne[j].singleOddUnderOdd
-                playerOdd.push({market: market[i].marketsContent,name,line,overOdd,underOdd})
-            }
-        }
-    }
-    return playerOdd
-}
-
-getPlayerNames();
